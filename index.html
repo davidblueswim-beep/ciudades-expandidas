@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ciudades Expandidas</title>
+
+    <link rel="stylesheet" href="css/main.css">
+    <!-- Locomotive Scroll CSS (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/locomotive-scroll/4.1.4/locomotive-scroll.min.css">
+
+</head>
+
+
+
+
+<body>
+
+    <!-- PANTALLA 1 -->
+
+    <section id="landing" class="screen active">
+
+        <video autoplay muted loop class="hero-video">
+            assets/video/hero.mp4
+        </video>
+
+        <div class="overlay">
+
+            <h1>LA DISTANCIA ES LA MISMA</h1>
+
+            <h2>LA EXPERIENCIA NO</h2>
+
+            <button onclick="showScreen('intro')">
+
+                COMENZAR
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- PANTALLA 2 -->
+
+    <section id="intro" class="screen">
+
+        <div class="content">
+
+            <h1>Todos recorremos la misma ciudad</h1>
+
+            <p>
+                Pero no todos la vivimos igual.
+            </p>
+
+            <button onclick="showScreen('selector')">
+
+                CONTINUAR
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- PANTALLA 3 -->
+
+    <section id="selector" class="screen">
+
+        <h1>ELIGE TU EXPERIENCIA</h1>
+
+        <div class="cards">
+
+            <div class="card" onclick="showScreen('blindness01')">
+
+                assets/icons/eye.svg
+
+                <h2>CEGUERA</h2>
+
+            </div>
+
+            <div class="card" onclick="showScreen('wheelchair01')">
+
+                assets/icons/wheelchair.svg
+
+                <h2>SILLA DE RUEDAS</h2>
+
+            </div>
+
+            <div class="card" onclick="showScreen('crutches01')">
+
+                assets/icons/crutches.svg
+
+                <h2>MULETAS</h2>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- CEGUERA -->
+
+    <section id="blindness01" class="screen dark">
+
+        <h1>Has perdido la referencia visual</h1>
+
+        <button onclick="showScreen('blindness02')">
+
+            EMPEZAR
+
+        </button>
+
+    </section>
+
+    <section id="blindness02" class="screen dark">
+
+        <h1>¿Cruzar ahora?</h1>
+
+        <div>
+
+            <button>
+
+                CRUZAR
+
+            </button>
+
+            <button>
+
+                ESPERAR
+
+            </button>
+
+        </div>
+
+        <button onclick="showScreen('blindness03')">
+
+            CONTINUAR
+
+        </button>
+
+    </section>
+
+    <section id="blindness03" class="screen dark">
+
+        <h1>Encuentra la salida</h1>
+
+        <button onclick="showScreen('blindnessReflection')">
+
+            FINALIZAR
+
+        </button>
+
+    </section>
+
+    <section id="blindnessReflection" class="screen">
+
+        <h1>REFLEXIÓN</h1>
+
+        <p>
+            Dependencia alta de referencias externas.
+        </p>
+
+        <button onclick="showScreen('final')">
+
+            IR A CONCLUSIÓN
+
+        </button>
+
+    </section>
+
+    <!-- SILLA DE RUEDAS -->
+
+    <section id="wheelchair01" class="screen">
+
+        <h1>La ciudad fue diseñada para caminar</h1>
+
+        <button onclick="showScreen('wheelchair02')">
+
+            COMENZAR
+
+        </button>
+
+    </section>
+
+    <section id="wheelchair02" class="screen">
+
+        <h1>Andén roto</h1>
+
+        <button onclick="showScreen('wheelchair03')">
+
+            CONTINUAR
+
+        </button>
+
+    </section>
+
+    <section id="wheelchair03" class="screen">
+
+        <h1>Pendiente</h1>
+
+        <div id="progress">
+
+            <div id="bar"></div>
+
+        </div>
+
+        <button onclick="pushHill()">
+
+            EMPUJAR
+
+        </button>
+
+    </section>
+
+    <!-- MULETAS -->
+
+    <section id="crutches01" class="screen">
+
+        <h1>Cada paso exige atención</h1>
+
+        <button onclick="showScreen('crutches02')">
+
+            CONTINUAR
+
+        </button>
+
+    </section>
+
+    <section id="crutches02" class="screen">
+
+        <h1>Escaleras</h1>
+
+        <button onclick="showScreen('crutches03')">
+
+            SUBIR
+
+        </button>
+
+    </section>
+
+    <section id="crutches03" class="screen">
+
+        <h1>Mantén el equilibrio</h1>
+
+        <button onclick="showScreen('final')">
+
+            FINALIZAR
+
+        </button>
+
+    </section>
+
+    <!-- FINAL -->
+
+    <section id="final" class="screen">
+
+        <h1>
+            LA DISTANCIA ES LA MISMA
+        </h1>
+
+        <h2>
+            LA EXPERIENCIA NO
+        </h2>
+
+        <p>
+
+            Las barreras están en el diseño de la ciudad.
+
+        </p>
+
+    </section>
+
+    <!-- Librerías: Howler (audio espacial), GSAP (transiciones), Locomotive Scroll -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/locomotive-scroll/4.1.4/locomotive-scroll.min.js"></script>
+
+    <!-- Scaffolding JS para las recomendaciones -->
+    <script src="js/locomotive-init.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/oscillation.js"></script>
+    <script src="js/cinematic.js"></script>
+    <script src="js/indicators.js"></script>
+    <script src="js/ergodic.js"></script>
+
+    <script src="js/navigation.js"></script>
+    <script src="js/wheelchair.js"></script>
+
+</body>
+
+</html>
