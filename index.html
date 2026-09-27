@@ -5,12 +5,11 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Ciudades Expandidas</title>
-
     <link rel="stylesheet" href="css/main.css">
     <!-- Locomotive Scroll CSS (CDN) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/locomotive-scroll/4.1.4/locomotive-scroll.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/locomotive-scroll/4.1.4/locomotive-scroll.min.css">
 
 </head>
 
@@ -21,17 +20,19 @@
 
     <!-- PANTALLA 1 -->
 
-    <section id="landing" class="screen active">
+    <section id="landing" class="screen active pantalla1">
 
         <video autoplay muted loop class="hero-video">
             assets/video/hero.mp4
         </video>
 
+        <img src="assets/logos/logo.png" alt="Logo" class="logo" width="250px">
+
         <div class="overlay">
 
             <h1>LA DISTANCIA ES LA MISMA</h1>
 
-            <h2>LA EXPERIENCIA NO</h2>
+            <h2>La experiencia no</h2>
 
             <button onclick="showScreen('intro')">
 
@@ -45,15 +46,19 @@
 
     <!-- PANTALLA 2 -->
 
-    <section id="intro" class="screen">
+    <section id="intro" class="screen ceguera">
+         <video autoplay muted loop class="bg-video">
+            <source src="assets/logos/pantalla-seleccion.mp4" type="video/mp4">
+        </video>
+        <div class="bg-overlay"></div>
 
         <div class="content">
 
             <h1>Todos recorremos la misma ciudad</h1>
 
-            <p>
+            <h2>
                 Pero no todos la vivimos igual.
-            </p>
+            </h2>
 
             <button onclick="showScreen('selector')">
 
@@ -67,33 +72,35 @@
 
     <!-- PANTALLA 3 -->
 
-    <section id="selector" class="screen">
+    <section id="selector" class="screen ceguera">
+        <video autoplay muted loop class="bg-video">
+            <source src="assets/video3.mp4" type="video/mp4">
+        </video>
+        <div class="bg-overlay"></div>
 
-        <h1>ELIGE TU EXPERIENCIA</h1>
+        <h1>ELIGE LA EXPERIENCIA</h1>
 
         <div class="cards">
 
             <div class="card" onclick="showScreen('blindness01')">
 
-                assets/icons/eye.svg
-
-                <h2>CEGUERA</h2>
+                <h3 class="btn_dis">Ceguera</h3>
 
             </div>
 
-            <div class="card" onclick="showScreen('wheelchair01')">
+            <div class="card1" onclick="showScreen('wheelchair01')">
 
-                assets/icons/wheelchair.svg
 
-                <h2>SILLA DE RUEDAS</h2>
+
+                <h3 class="btn_dis">Silla de ruedas</h3>
 
             </div>
 
-            <div class="card" onclick="showScreen('crutches01')">
+            <div class="card2" onclick="showScreen('crutches01')">
 
-                assets/icons/crutches.svg
 
-                <h2>MULETAS</h2>
+
+                <h3 class="btn_dis">Muletas</h3>
 
             </div>
 
@@ -103,7 +110,12 @@
 
     <!-- CEGUERA -->
 
-    <section id="blindness01" class="screen dark">
+    <section id="blindness01" class="screen ceguera">
+
+        <video autoplay muted loop class="bg-video">
+            <source src="assets/ondas3.mp4" type="video/mp4">
+        </video>
+        <div class="bg-overlay"></div>
 
         <h1>Has perdido la referencia visual</h1>
 
@@ -115,31 +127,29 @@
 
     </section>
 
-    <section id="blindness02" class="screen dark">
+    <section id="blindness02" class="screen dark ceguera">
+         <video autoplay muted loop class="bg-video">
+            <source src="assets/semaforo1.mp4" type="video/mp4">
+        </video>
+        <div class="bg-overlay"></div>
 
         <h1>¿Cruzar ahora?</h1>
 
         <div>
 
-            <button>
+            <button class="btn-cruzar">
 
                 CRUZAR
 
             </button>
 
-            <button>
+            <button class="btn-esperar">
 
                 ESPERAR
 
             </button>
 
         </div>
-
-        <button onclick="showScreen('blindness03')">
-
-            CONTINUAR
-
-        </button>
 
     </section>
 
@@ -262,7 +272,7 @@
         </h1>
 
         <h2>
-            LA EXPERIENCIA NO
+            La experiencia no
         </h2>
 
         <p>
