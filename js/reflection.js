@@ -125,6 +125,22 @@
         }catch(e){ return false; }
     }
 
+    function getCrutchesReflectionText(){
+        return 'La distancia recorrida fue la misma, pero cada paso requirió atención constante. Las superficies irregulares, los desniveles y los obstáculos transformaron un recorrido cotidiano en una experiencia de adaptación permanente. Cuando la ciudad no contempla todas las formas de movilidad, la autonomía depende del esfuerzo individual y no de un entorno accesible.';
+    }
+
+    function speakCrutchesReflection(){
+        return speakForced(getCrutchesReflectionText());
+    }
+
+    function wireCrutchesPlayButton(section){
+        if(!section) return;
+        const play = section.querySelector('.reflection-play');
+        if(!play || play.dataset.crutchesAudioWired) return;
+        play.dataset.crutchesAudioWired = 'true';
+        play.addEventListener('click', speakCrutchesReflection);
+    }
+
     function onScreenShown(e){
         if(!e || !e.detail) return;
         const id = e.detail.id;
@@ -135,6 +151,10 @@
             if(section && section.querySelector('.reflection-play')){
                 wirePlayButton(section);
             }
+        } else if(id === 'crutchesReflection'){
+            const section = document.getElementById(id);
+            wireCrutchesPlayButton(section);
+            speakCrutchesReflection();
         }
     }
 
@@ -147,6 +167,9 @@
             renderComparisonFor(active.id);
             wirePlayButton(document.getElementById(active.id));
             setTimeout(()=>{ speakWheelchairReflection(); }, 400);
+        } else if(active && active.id === 'crutchesReflection'){
+            wireCrutchesPlayButton(active);
+            setTimeout(speakCrutchesReflection, 400);
         }
     });
 })();

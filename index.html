@@ -227,7 +227,7 @@
     </section>
 
     <section id="wheelchair02" class="screen ceguera">
-        <video autoplay     lass="bg-video">
+        <video autoplay muted class="bg-video">
             <source src="assets/silla_ruedas.mp4" type="video/mp4">
         </video>
         <div class="bg-overlay"></div>
@@ -287,10 +287,11 @@
 
     <!-- MULETAS -->
 
-    <section id="crutches01" class="screen">
+    <section id="crutches01" class="screen muletas">
         <img src="assets/icons/crutches.svg" class="screen-icon" alt="Muletas">
 
         <h1>Cada paso exige atención</h1>
+        <h2>Cada superficie modifica el equilibrio</h2>
 
         <button onclick="showScreen('crutches02')">
 
@@ -300,56 +301,100 @@
 
     </section>
 
-    <section id="crutches02" class="screen">
-        <img src="assets/icons/crutches.svg" class="screen-icon" alt="Muletas">
-
-        <h1>Escaleras</h1>
-
-        <button onclick="showScreen('crutches03')">
-
-            SUBIR
-
-        </button>
-
-    </section>
-
-    <section id="crutches03" class="screen">
+    <section id="crutches02" class="screen equilibrio balance-screen">
         <img src="assets/icons/crutches.svg" class="screen-icon" alt="Muletas">
 
         <h1>Mantén el equilibrio</h1>
 
-        <button onclick="showScreen('crutchesReflection')">
+        <p class="balance-instruction">Arrastra a la persona siguiendo la línea</p>
 
-            FINALIZAR
+        <div class="balance-course" id="balance-course">
+            <svg class="balance-svg" id="balance-svg" viewBox="0 0 1000 360" aria-hidden="true">
+                <path class="balance-line" d="M 70 275 C 180 275 155 85 285 85 S 405 280 505 280 S 625 85 735 85 S 805 260 930 180"></path>
+                <path class="balance-flow" d="M 70 275 C 180 275 155 85 285 85 S 405 280 505 280 S 625 85 735 85 S 805 260 930 180"></path>
+                <path class="balance-progress" id="balance-progress" d="M 70 275 C 180 275 155 85 285 85 S 405 280 505 280 S 625 85 735 85 S 805 260 930 180"></path>
+                <circle class="balance-start" cx="70" cy="275" r="20"></circle>
+                <circle class="balance-goal" cx="930" cy="180" r="24"></circle>
+            </svg>
+            <button class="balance-climber" id="balance-climber" type="button" aria-label="Persona con muletas. Arrastra siguiendo la línea.">
+                <img src="assets/icons/crutches.svg" alt="">
+            </button>
+        </div>
 
-        </button>
+        <p class="balance-status" id="balance-status" aria-live="polite">Sigue la línea hasta el final sin salirte.</p>
+        <button id="balance-continue" type="button" disabled onclick="showScreen('crutches03')">SUBIR</button>
+
+        <div class="balance-alert" id="balance-alert" aria-hidden="true">
+            <div class="balance-alert-panel" role="alertdialog" aria-modal="true" aria-labelledby="balance-alert-title" aria-describedby="balance-alert-message">
+                <h2 id="balance-alert-title">¡Te saliste de la línea!</h2>
+                <p id="balance-alert-message">La figura volvió al inicio. Vuelve a intentarlo y hazlo despacio.</p>
+                <button id="balance-alert-dismiss" type="button">REINTENTAR</button>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="crutches03" class="screen escaleras stair-climb">
+        <img src="assets/icons/crutches.svg" class="screen-icon" alt="Muletas">
+
+        <h1>Sube las escaleras</h1>
+
+        <p class="climb-instruction">Arrastra la figura hasta el siguiente escalón</p>
+
+        <div class="climb-track" id="climb-track" aria-label="Recorrido de cinco escalones">
+            <div class="climb-origin" id="climb-origin" aria-hidden="true">INICIO</div>
+            <div class="climb-step" data-step="1" style="--step: 1"><span>1</span></div>
+            <div class="climb-step" data-step="2" style="--step: 2"><span>2</span></div>
+            <div class="climb-step" data-step="3" style="--step: 3"><span>3</span></div>
+            <div class="climb-step" data-step="4" style="--step: 4"><span>4</span></div>
+            <div class="climb-step" data-step="5" style="--step: 5"><span>5</span></div>
+            <button class="climber" id="climber" type="button" aria-label="Persona con muletas, arrastra para subir un escalón">
+                <img src="assets/icons/crutches.svg" alt="">
+            </button>
+        </div>
+
+        <p class="climb-status" id="climb-status" aria-live="polite">Escalón 1 de 5</p>
+
+        <div class="climb-video-modal" id="climb-video-modal" aria-hidden="true">
+            <div class="climb-video-panel" role="dialog" aria-modal="true" aria-labelledby="climb-video-title" aria-describedby="climb-video-status">
+                <h2 id="climb-video-title">Llegaste al final</h2>
+                <video id="climb-video" controls playsinline preload="metadata">
+                    <source src="assets/persona_muletas.mp4" type="video/mp4">
+                    Tu navegador no puede reproducir este video.
+                </video>
+                <p id="climb-video-status" aria-live="polite">Mira el recorrido antes de continuar.</p>
+                <button id="climb-video-continue" type="button" disabled>CONTINUAR</button>
+            </div>
+        </div>
 
     </section>
 
     <!-- REFLEXIÓN MULETAS -->
     <section id="crutchesReflection" class="screen">
         <img src="assets/icons/crutches.svg" class="screen-icon" alt="Muletas">
-        <h1>REFLEXIÓN - Muletas</h1>
+        <h1>RESULTADOS</h1>
 
-        <div class="time-comparison large">
-            <div class="tc-title">Comparación de tiempos</div>
-            <div class="tc-row">
-                <div class="tc-icon">🚶</div>
-                <div class="tc-bar"><div class="tc-fill" style="width:45%"></div></div>
-                <div class="tc-value">5 min</div>
+        <div class="reflection-stats crutches-results" aria-label="Resultados de la experiencia con muletas">
+            <div class="stat">
+                <strong>Distancia recorrida</strong>
+                <span>500 m</span>
             </div>
-            <div class="tc-row">
-                <div class="tc-icon">🦽</div>
-                <div class="tc-bar"><div class="tc-fill" style="width:100%"></div></div>
-                <div class="tc-value">11 min</div>
+            <div class="stat">
+                <strong>Tiempo</strong>
+                <span>9 min</span>
             </div>
-            <div class="tc-note">La distancia fue la misma. La experiencia cambió.</div>
+            <div class="stat">
+                <strong>Esfuerzo</strong>
+                <span>ALTO</span>
+            </div>
+            <div class="stat">
+                <strong>Autonomía</strong>
+                <span>MEDIA</span>
+            </div>
         </div>
 
         <div class="reflection-actions">
-            <div class="voice-select-wrap">
-                <button class="reflection-play" type="button">Reproducir reflexión</button>
-            </div>
+       
             <button onclick="showScreen('selector')">VER OTRA EXPERIENCIA</button>
         </div>
 
@@ -392,6 +437,7 @@
     <script src="js/navigation.js"></script>
     <script src="js/reflection.js"></script>
     <script src="js/wheelchair.js"></script>
+    <script src="js/crutches.js"></script>
 
     <!-- Modal used by find-exit to announce completion -->
     <div id="fx-modal" class="fx-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="fx-modal-title">

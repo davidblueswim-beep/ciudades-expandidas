@@ -350,6 +350,451 @@ button {
     background-image: url('../assets/logos/pantalla-inicial.png');
 }
 
+.muletas{
+    background-image: url('../assets/muletas.png');
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+    --muletas-overlay: 0.8;
+}
+
+.muletas::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,var(--muletas-overlay));
+    z-index: 1;
+    pointer-events: none;
+}
+
+.muletas > *{ position: relative; z-index: 2; }
+
+/* Ensure wheelchair icon stays top-right on .silla screens */
+.muletas .screen-icon{
+    position: absolute !important;
+    top: 16px !important;
+    right: 16px !important;
+    z-index: 10002 !important;
+}
+
+.pantalla1{
+    background-image: url('../assets/logos/pantalla-inicial.png');
+}
+
+.escaleras{
+    background-image: url('../assets/escalera.png');
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+    --escaleras-overlay: 0.7;
+}
+
+.escaleras::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,var(--escaleras-overlay));
+    z-index: 1;
+    pointer-events: none;
+}
+
+.escaleras > *{ position: relative; z-index: 2; }
+
+/* Ensure wheelchair icon stays top-right on .silla screens */
+.escaleras .screen-icon{
+    position: absolute !important;
+    top: 16px !important;
+    right: 16px !important;
+    z-index: 10002 !important;
+}
+
+.equilibrio{
+    background-image: url('../assets/equilibrio.png');
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+    --equilibrio-overlay: 0.7;
+}
+
+.equilibrio::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,var(--equilibrio-overlay));
+    z-index: 1;
+    pointer-events: none;
+}
+
+.equilibrio > *{ position: relative; z-index: 2; }
+
+/* Ensure wheelchair icon stays top-right on .silla screens */
+.equilibrio .screen-icon{
+    position: absolute !important;
+    top: 16px !important;
+    right: 16px !important;
+    z-index: 10002 !important;
+}
+
+.balance-alert{
+    position: fixed;
+    inset: 0;
+    z-index: 32000;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: rgba(0,0,0,0.78);
+    backdrop-filter: blur(3px);
+}
+
+.balance-alert[aria-hidden="true"]{ display: none; }
+
+.balance-alert-panel{
+    width: min(440px, 100%);
+    padding: 28px;
+    border: 1px solid #E8D91D;
+    border-left-width: 5px;
+    border-radius: 4px;
+    background: #151515;
+    box-shadow: 0 18px 48px rgba(0,0,0,0.6);
+    color: white;
+    text-align: left;
+}
+
+.balance-alert-panel h2{
+    margin-bottom: 12px;
+    color: #E8D91D;
+    font-family: "DM Sans", sans-serif;
+    font-size: 1.6rem;
+}
+
+.balance-alert-panel p{
+    margin-bottom: 22px;
+    color: #e6e6e6;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.balance-alert-panel button{ margin: 0; }
+
+.balance-alert-panel button:focus-visible{
+    outline: 2px solid white;
+    outline-offset: 3px;
+}
+
+.balance-screen{
+    gap: 8px;
+    padding: 28px 20px;
+}
+
+.balance-screen h1{
+    margin-bottom: 4px;
+    font-size: 2.5rem;
+}
+
+.balance-instruction,
+.balance-status{
+    font-size: 1rem;
+    text-shadow: 0 1px 4px #000;
+}
+
+.balance-course{
+    position: relative;
+    width: min(900px, 94vw);
+    aspect-ratio: 1000 / 360;
+    margin: 4px auto;
+    touch-action: none;
+}
+
+.balance-svg{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+}
+
+.balance-line,
+.balance-flow,
+.balance-progress{
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.balance-line{
+    stroke: rgba(255,255,255,0.82);
+    stroke-width: 54;
+}
+
+.balance-flow{
+    stroke: #E8D91D;
+    stroke-width: 7;
+    stroke-dasharray: 18 24;
+    animation: balance-flow 1.2s linear infinite;
+}
+
+.balance-progress{
+    stroke: white;
+    stroke-width: 12;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+}
+
+.balance-start{
+    fill: #E8D91D;
+    stroke: white;
+    stroke-width: 5;
+}
+
+.balance-goal{
+    fill: rgba(232,217,29,0.18);
+    stroke: #E8D91D;
+    stroke-width: 8;
+    animation: balance-goal 1.8s ease-in-out infinite;
+}
+
+.balance-climber{
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 62px;
+    height: 78px;
+    display: grid;
+    place-items: center;
+    padding: 8px;
+    margin: 0;
+    border: 2px solid white;
+    border-radius: 50%;
+    background: #E8D91D;
+    box-shadow: 0 5px 16px rgba(0,0,0,0.45);
+    transform: translate(-50%, -50%);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+}
+
+.balance-climber img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0);
+    pointer-events: none;
+}
+
+.balance-climber.is-dragging{
+    cursor: grabbing;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.55);
+}
+
+.balance-course.is-error{
+    animation: balance-error 420ms ease;
+}
+
+#balance-continue:disabled{
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+@keyframes balance-flow{
+    to{ stroke-dashoffset: -42; }
+}
+
+@keyframes balance-goal{
+    50%{ fill: rgba(232,217,29,0.48); }
+}
+
+@keyframes balance-error{
+    25%{ transform: translateX(-6px); }
+    75%{ transform: translateX(6px); }
+}
+
+@media (max-width: 600px){
+    .balance-screen h1{ font-size: 1.8rem; }
+    .balance-instruction,
+    .balance-status{ font-size: 0.9rem; }
+    .balance-climber{ width: 50px; height: 64px; }
+}
+
+.stair-climb{
+    gap: 8px;
+    padding: 28px 20px;
+}
+
+.stair-climb h1{
+    margin-bottom: 4px;
+    font-size: 2.5rem;
+}
+
+.climb-instruction,
+.climb-status{
+    font-size: 1rem;
+    text-shadow: 0 1px 4px #000;
+}
+
+.climb-video-modal{
+    position: fixed;
+    inset: 0;
+    z-index: 32000;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(0,0,0,0.84);
+    backdrop-filter: blur(4px);
+}
+
+.climb-video-modal[aria-hidden="true"]{ display: none; }
+
+.climb-video-panel{
+    width: min(820px, 100%);
+    max-height: 94vh;
+    overflow-y: auto;
+    padding: 24px;
+    border: 1px solid #E8D91D;
+    border-left-width: 5px;
+    border-radius: 4px;
+    background: #151515;
+    box-shadow: 0 18px 48px rgba(0,0,0,0.65);
+    color: white;
+    text-align: center;
+}
+
+.climb-video-panel h2{
+    margin-bottom: 16px;
+    color: #E8D91D;
+    font-family: "DM Sans", sans-serif;
+    font-size: 1.6rem;
+}
+
+.climb-video-panel video{
+    display: block;
+    width: 100%;
+    max-height: 65vh;
+    background: #000;
+    object-fit: contain;
+}
+
+.climb-video-panel p{
+    margin: 14px 0 8px;
+    color: #e6e6e6;
+    line-height: 1.5;
+}
+
+.climb-video-panel button:disabled{
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.climb-video-panel button:focus-visible{
+    outline: 2px solid white;
+    outline-offset: 3px;
+}
+
+.climb-track{
+    position: relative;
+    width: min(860px, 94vw);
+    height: min(46vh, 390px);
+    min-height: 260px;
+    margin: 4px auto;
+    touch-action: none;
+}
+
+.climb-step{
+    position: absolute;
+    left: calc(5% + var(--step) * 15%);
+    bottom: calc(4% + var(--step) * 12%);
+    width: 17%;
+    height: 18%;
+    display: grid;
+    place-items: center;
+    border: 2px solid rgba(255,255,255,0.75);
+    background: rgba(18,18,18,0.82);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.28);
+    color: white;
+    font-size: 1.15rem;
+    transition: background 180ms ease, border-color 180ms ease;
+}
+
+.climb-origin{
+    position: absolute;
+    left: 1%;
+    bottom: 2%;
+    width: 17%;
+    height: 12%;
+    display: grid;
+    place-items: center;
+    border: 2px dashed rgba(255,255,255,0.75);
+    color: white;
+    font-size: 0.8rem;
+    text-shadow: 0 1px 4px #000;
+}
+
+.climb-step.is-current{
+    border-color: #E8D91D;
+    background: rgba(232,217,29,0.28);
+}
+
+.climb-step.is-complete span{
+    color: #E8D91D;
+}
+
+.climber{
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 64px;
+    height: 82px;
+    display: grid;
+    place-items: center;
+    padding: 8px;
+    margin: 0;
+    border: 2px solid white;
+    border-radius: 50%;
+    background: #E8D91D;
+    box-shadow: 0 5px 16px rgba(0,0,0,0.45);
+    transform: translate(-50%, -50%);
+    transition: left 220ms ease, top 220ms ease, box-shadow 150ms ease;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+}
+
+.climber img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0);
+    pointer-events: none;
+}
+
+.climber.is-dragging{
+    z-index: 3;
+    cursor: grabbing;
+    transition: none;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.55);
+}
+
+#climb-finish:disabled{
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+@media (max-height: 650px){
+    .stair-climb h1{ font-size: 2rem; }
+    .climb-track{ height: 42vh; min-height: 210px; }
+}
+
+@media (max-width: 600px){
+    .stair-climb h1{ font-size: 1.8rem; }
+    .climb-track{ width: 96vw; min-height: 230px; }
+    .climb-step{ width: 18%; }
+    .climber{ width: 54px; height: 70px; }
+    .climb-instruction,
+    .climb-status{ font-size: 0.9rem; }
+}
+
 .silla{
     background-image: url('../assets/inclusion\ .jpg');
     background-size: cover;
@@ -452,6 +897,50 @@ button {
 }
 .reflection-stats .stat strong{ display:block; color:#ddd; margin-bottom:6px; }
 .reflection-stats .stat span{ font-size:18px; font-weight:700; color:#E8D91D; }
+.crutches-results{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    width:min(440px, 90vw);
+    margin:12px 0 6px;
+    padding:14px 22px;
+    border:1px solid rgba(232,217,29,0.34);
+    border-radius:6px;
+    background:rgba(15,15,15,0.96);
+    box-shadow:0 12px 30px rgba(0,0,0,0.4);
+}
+.crutches-results .stat{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    min-width:0;
+    padding:11px 0;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    background:transparent;
+    text-align:left;
+}
+.crutches-results .stat:last-child{ border-bottom:0; }
+.crutches-results .stat strong{
+    display:block;
+    margin:0;
+    color:#eee;
+    font-size:0.82rem;
+    font-weight:600;
+    text-transform:uppercase;
+}
+.crutches-results .stat span{
+    flex:0 0 auto;
+    color:#fff;
+    font-size:0.9rem;
+    font-weight:700;
+    text-align:right;
+}
+#crutchesReflection h1{
+    margin-bottom:12px;
+    color:#E8D91D;
+    font-size:2rem;
+}
 .reflection-actions{ text-align:center; margin-top:12px; }
 .reflection-actions button{ padding:12px 20px; background:#E8D91D; color:#111; border:none; border-radius:8px; cursor:pointer; }
 
