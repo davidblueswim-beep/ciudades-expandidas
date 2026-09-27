@@ -1,7 +1,26 @@
 // Simple navigation with history stack and global left-side buttons
 window._screenHistory = window._screenHistory || [];
 
+function stopSpeechIfAny(){
+	try{
+		if(window.speechSynthesis && typeof window.speechSynthesis.cancel === 'function'){
+			window.speechSynthesis.cancel();
+		}
+	}catch(e){}
+}
+
+function showSelectorTransition(){
+	if(typeof window.playWheelchairVideoOverlay === 'function'){
+		window.playWheelchairVideoOverlay('assets/video3.mp4', 'selector');
+		return;
+	}
+	showScreen('selector');
+}
+
+window.showSelectorTransition = showSelectorTransition;
+
 function showScreen(id){
+	stopSpeechIfAny();
 	const current = document.querySelector('.screen.active');
 	if(current && current.id !== id){
 		window._screenHistory.push(current.id);
@@ -35,7 +54,29 @@ function showScreen(id){
 	}catch(e){ console.warn('audio handling error', e); }
 
 	// track last screen for cleanup
+
+	// if we are leaving wheelchair02, pause its background video
+	try{
+		if(window._lastScreen === 'wheelchair02'){
+			const prevV = document.querySelector('#wheelchair02 video');
+			if(prevV && !prevV.paused){ try{ prevV.pause(); }catch(e){} }
+		}
+	}catch(e){}
+
 	window._lastScreen = id;
+
+	// if entering wheelchair02, try to play its video once
+	try{
+		if(id === 'wheelchair02'){
+			const v = document.querySelector('#wheelchair02 video');
+			if(v){
+				v.loop = false;
+				try{ v.currentTime = 0; }catch(e){}
+				const p = v.play();
+				if(p && p.catch){ p.catch(err=>{ console.warn('wheelchair02 video play blocked', err); }); }
+			}
+		}
+	}catch(e){ console.warn('wheelchair02 play error', e); }
 
 	// When entering blindness02: show intro message, hide options for 10s, then reveal
 	if(id === 'blindness02'){
@@ -55,6 +96,9 @@ function showScreen(id){
 		const btns = document.querySelectorAll('.btn-cruzar, .btn-esperar');
 		btns.forEach(b=>{ b.style.display = ''; });
 	}
+
+	// dispatch a global event so other modules can react to screen changes
+	try{ window.dispatchEvent(new CustomEvent('screenShown',{detail:{id:id}})); }catch(e){}
 }
 
 function goBack(){
@@ -98,12 +142,22 @@ function ensureGlobalNav(){
 
 document.addEventListener('DOMContentLoaded', ()=>{
 	ensureGlobalNav();
+	document.addEventListener('click', (event)=>{
+		const btn = event.target.closest('button');
+		if(!btn) return;
+		const text = (btn.textContent || '').trim().toUpperCase();
+		if(text === 'VER OTRA EXPERIENCIA'){
+			event.preventDefault();
+			showSelectorTransition();
+		}
+	});
 });
 
 // expose functions
 window.showScreen = showScreen;
 window.goBack = goBack;
 window.goHome = goHome;
+window.stopSpeechIfAny = stopSpeechIfAny;
 
 // Show a crossing prompt when the user chooses to cross
 function showCrossPrompt(){

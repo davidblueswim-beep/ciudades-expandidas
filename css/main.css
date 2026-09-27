@@ -56,7 +56,7 @@ body {
     right:16px;
     width:48px;
     height:48px;
-    z-index:10;
+    z-index:10001;
     opacity:0.95;
     filter: drop-shadow(0 6px 10px rgba(0,0,0,0.5));
 }
@@ -350,6 +350,33 @@ button {
     background-image: url('../assets/logos/pantalla-inicial.png');
 }
 
+.silla{
+    background-image: url('../assets/inclusion\ .jpg');
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+    --silla-overlay: 0.6;
+}
+
+.silla::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,var(--silla-overlay));
+    z-index: 1;
+    pointer-events: none;
+}
+
+.silla > *{ position: relative; z-index: 2; }
+
+/* Ensure wheelchair icon stays top-right on .silla screens */
+.silla .screen-icon{
+    position: absolute !important;
+    top: 16px !important;
+    right: 16px !important;
+    z-index: 10002 !important;
+}
+
 /* Encuentra la salida: sectores grandes accesibles */
 .find-exit{
     width:100%;
@@ -428,6 +455,43 @@ button {
 .reflection-actions{ text-align:center; margin-top:12px; }
 .reflection-actions button{ padding:12px 20px; background:#E8D91D; color:#111; border:none; border-radius:8px; cursor:pointer; }
 
+/* Fullscreen overlay video used by wheelchair intro */
+.wheelchair-video-overlay{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:40000;
+    background:#000;
+}
+
+#wheelchair-wait-message{
+    position:fixed;
+    right:28px;
+    bottom:28px;
+    z-index:40001;
+    background: rgba(0,0,0,0.55);
+    color:#E8D91D;
+    font-size: clamp(1.2rem, 2vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 14px 22px;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    pointer-events:none;
+}
+
+/* Slope visual for wheelchair push interaction */
+.slope-wrap{ width:100%; max-width:900px; margin:14px auto; z-index:4; }
+.slope-track{ position:relative; width:100%; height:460px; overflow:hidden; border-radius:12px; background:#111; }
+.slope-bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.9; }
+.wheelchair-marker{ display:none !important; }
+.wheelchair-marker img{ display:none !important; }
+.push-controls{ text-align:center; margin-top:10px; }
+.push-controls button{ padding:12px 20px; }
+
 /* Modal for find-exit completion */
 .fx-modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.6); z-index:30000; }
 .fx-modal[aria-hidden="false"]{ display:flex; }
@@ -436,4 +500,31 @@ button {
 .fx-modal-inner p{ color:#ddd; margin-bottom:16px; }
 .fx-modal-actions{ text-align:center; }
 .fx-modal-actions button{ padding:10px 18px; border-radius:8px; border:none; background:#E8D91D; color:#111; font-weight:700; cursor:pointer; }
+
+/* Improved wheelchair reflection card */
+.time-comparison.wheelchair{
+    max-width:760px;
+    margin:18px auto;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.14));
+    border-radius:14px;
+    padding:22px;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+    display:block;
+    color:#ececec;
+}
+.time-comparison.wheelchair .tc-title{ font-size:1.2rem; color:#E8D91D; font-weight:800; margin-bottom:12px; }
+.time-comparison.wheelchair .wc-row{ display:flex; align-items:center; gap:14px; padding:10px 6px; }
+.time-comparison.wheelchair .wc-icon{ font-size:30px; width:56px; text-align:center; }
+.time-comparison.wheelchair .wc-bar-wrap{ flex:1; }
+.time-comparison.wheelchair .wc-bar{ height:18px; background: rgba(255,255,255,0.06); border-radius:10px; overflow:hidden; }
+.time-comparison.wheelchair .wc-fill{ height:100%; background: linear-gradient(90deg,#E8D91D,#ffb84d); box-shadow: inset 0 -6px 18px rgba(0,0,0,0.25); }
+.time-comparison.wheelchair .wc-value{ width:72px; text-align:right; font-weight:800; color:#fff; }
+.time-comparison.wheelchair .tc-note{ margin-top:12px; color:#ddd; font-size:0.95rem; }
+
+/* Make play button more prominent */
+.reflection-actions .reflection-play{ background:#0b7dd9; color:#fff; border-radius:8px; padding:10px 14px; margin-right:8px; border:none; cursor:pointer; font-weight:700; }
+.reflection-actions .reflection-play:hover{ filter:brightness(.95); }
+
+/* Simplify voice select wrapper spacing */
+.voice-select-wrap{ display:flex; gap:10px; align-items:center; justify-content:center; margin-bottom:8px; }
 

@@ -211,12 +211,14 @@
 
     <!-- SILLA DE RUEDAS -->
 
-    <section id="wheelchair01" class="screen">
+    <section id="wheelchair01" class="screen silla">
         <img src="assets/icons/wheelchair.svg" class="screen-icon" alt="Silla de ruedas">
+      
 
         <h1>La ciudad fue diseñada para caminar</h1>
+        <h2>¿Qué ocurre cuando necesitas rodar?</h2>
 
-        <button onclick="showScreen('wheelchair02')">
+        <button onclick="startWheelchairVideo()">
 
             COMENZAR
 
@@ -224,16 +226,27 @@
 
     </section>
 
-    <section id="wheelchair02" class="screen">
+    <section id="wheelchair02" class="screen ceguera">
+        <video autoplay     lass="bg-video">
+            <source src="assets/silla_ruedas.mp4" type="video/mp4">
+        </video>
+        <div class="bg-overlay"></div>
+
         <img src="assets/icons/wheelchair.svg" class="screen-icon" alt="Silla de ruedas">
 
-        <h1>Andén roto</h1>
+        <h1>Obstáculo detectado</h1>
 
-        <button onclick="showScreen('wheelchair03')">
+        <div class="choice-group">
+            <button onclick="showScreen('wheelchair03')">
+                DAR LA VUELTA A LA CUADRA ENTERA
+            </button>
 
-            CONTINUAR
+            <button onclick="showScreen('wheelchair03')">
+                ARRIESGARSE A CRUZAR CON RIESGO DE CAÍDA
+            </button>
 
-        </button>
+    
+        </div>
 
     </section>
 
@@ -242,18 +255,34 @@
 
         <h1>Pendiente</h1>
 
-        <div id="progress">
-
-            <div id="bar"></div>
-
+        <div class="slope-wrap">
+            <div class="slope-track" id="slope-track" aria-hidden="true">
+                <img src="assets/slope1.svg" alt="pendiente" class="slope-bg" id="slope-bg-image">
+                <div class="wheelchair-marker" id="wheelchair-marker" aria-hidden="true">
+                    <img src="assets/icons/wheelchair.svg" alt="" />
+                </div>
+            </div>
         </div>
 
-        <button onclick="pushHill()">
+        <div id="progress">
+            <div id="bar"></div>
+        </div>
 
-            EMPUJAR
+        <div class="push-controls">
+            <button id="btn-push" onclick="pushHill()">EMPUJAR</button>
+        </div>
 
-        </button>
+    </section>
 
+    <!-- REFLEXIÓN SILLA DE RUEDAS -->
+    <section id="wheelchairReflection" class="screen">
+        <img src="assets/icons/wheelchair.svg" class="screen-icon" alt="Silla de ruedas">
+        <h1>REFLEXIÓN</h1>
+
+        
+        <div class="reflection-actions">     
+            <button onclick="showScreen('selector')">VER OTRA EXPERIENCIA</button>
+        </div>
     </section>
 
     <!-- MULETAS -->
@@ -289,11 +318,40 @@
 
         <h1>Mantén el equilibrio</h1>
 
-        <button onclick="showScreen('final')">
+        <button onclick="showScreen('crutchesReflection')">
 
             FINALIZAR
 
         </button>
+
+    </section>
+
+    <!-- REFLEXIÓN MULETAS -->
+    <section id="crutchesReflection" class="screen">
+        <img src="assets/icons/crutches.svg" class="screen-icon" alt="Muletas">
+        <h1>REFLEXIÓN - Muletas</h1>
+
+        <div class="time-comparison large">
+            <div class="tc-title">Comparación de tiempos</div>
+            <div class="tc-row">
+                <div class="tc-icon">🚶</div>
+                <div class="tc-bar"><div class="tc-fill" style="width:45%"></div></div>
+                <div class="tc-value">5 min</div>
+            </div>
+            <div class="tc-row">
+                <div class="tc-icon">🦽</div>
+                <div class="tc-bar"><div class="tc-fill" style="width:100%"></div></div>
+                <div class="tc-value">11 min</div>
+            </div>
+            <div class="tc-note">La distancia fue la misma. La experiencia cambió.</div>
+        </div>
+
+        <div class="reflection-actions">
+            <div class="voice-select-wrap">
+                <button class="reflection-play" type="button">Reproducir reflexión</button>
+            </div>
+            <button onclick="showScreen('selector')">VER OTRA EXPERIENCIA</button>
+        </div>
 
     </section>
 
@@ -332,6 +390,7 @@
 
     <script src="js/find-exit.js"></script>
     <script src="js/navigation.js"></script>
+    <script src="js/reflection.js"></script>
     <script src="js/wheelchair.js"></script>
 
     <!-- Modal used by find-exit to announce completion -->

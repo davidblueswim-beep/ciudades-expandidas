@@ -113,7 +113,8 @@
             if(cb && !cb.checked) return;
             if('speechSynthesis' in window){
                 const u = new SpeechSynthesisUtterance(text);
-                u.lang = 'es-ES';
+                const v = getPreferredVoice();
+                if(v){ u.voice = v; if(v.lang) u.lang = v.lang; } else { u.lang = 'es-ES'; }
                 u.rate = 1;
                 window.speechSynthesis.cancel();
                 window.speechSynthesis.speak(u);
@@ -126,10 +127,16 @@
         if(!('speechSynthesis' in window)) return null;
         const voices = window.speechSynthesis.getVoices() || [];
         if(!voices.length) return null;
-        // prefer non-default Spanish voices (Google/Microsoft) if present
-        let v = voices.find(v=>/google/i.test(v.name) && /^es/i.test(v.lang));
-        if(!v) v = voices.find(v=>/^es/i.test(v.lang) && /female|woman|mujer|female/i.test(v.name));
-        if(!v) v = voices.find(v=>/^es/i.test(v.lang));
+        // prefer Google Spanish (United States) when available, then Google Spanish, then any Spanish
+        let v = voices.find(voice => {
+            const name = (voice.name||'').toLowerCase();
+            const lang = (voice.lang||'').toLowerCase();
+            if(name.includes('google') && (lang.includes('es-us') || (name.includes('spanish') && name.includes('us')))) return true;
+            if(lang === 'es-us') return true;
+            return false;
+        });
+        if(!v) v = voices.find(voice => /google/i.test(voice.name) && /^es/i.test(voice.lang));
+        if(!v) v = voices.find(voice=> /^es/i.test(voice.lang));
         if(!v) v = voices[0];
         return v;
     }
@@ -140,9 +147,8 @@
             if(cb && !cb.checked) return;
             if('speechSynthesis' in window){
                 const u = new SpeechSynthesisUtterance(text);
-                u.lang = 'es-ES';
                 const v = getPreferredVoice();
-                if(v) u.voice = v;
+                if(v){ u.voice = v; if(v.lang) u.lang = v.lang; }
                 u.rate = 1;
                 window.speechSynthesis.cancel();
                 window.speechSynthesis.speak(u);
