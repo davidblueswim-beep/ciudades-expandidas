@@ -73,7 +73,7 @@
     <!-- PANTALLA 3 -->
 
     <section id="selector" class="screen ceguera">
-        <img src="assets/icons/eyes.svg" class="screen-icon" alt="Ceguera">
+        
         <video autoplay muted loop class="bg-video">
             <source src="assets/video3.mp4" type="video/mp4">
         </video>
@@ -112,7 +112,7 @@
     <!-- CEGUERA -->
 
     <section id="blindness01" class="screen ceguera">
-        <img src="assets/icons/eyes.svg" class="screen-icon" alt="Ceguera">
+        <img src="assets/icons/eye.svg" class="screen-icon" alt="Ceguera">
 
         <video autoplay muted loop class="bg-video">
             <source src="assets/ondas3.mp4" type="video/mp4">
@@ -157,30 +157,55 @@
     </section>
 
     <section id="blindness03" class="screen dark">
-
+        <img src="assets/icons/eye.svg" class="screen-icon" alt="Ceguera">
         <h1>Encuentra la salida</h1>
 
-        <button onclick="showScreen('blindnessReflection')">
+        <p id="find-exit-live" class="sr-only" aria-live="polite" aria-atomic="true"></p>
 
-            FINALIZAR
+        <div class="find-exit" role="region" aria-label="Encuentra la salida - cuatro sectores">
+            <div class="sectors-grid" role="application" aria-describedby="find-exit-live">
+                <div class="sector" role="button" tabindex="0" data-index="0" aria-label="Sector arriba izquierda">&nbsp;</div>
+                <div class="sector" role="button" tabindex="0" data-index="1" aria-label="Sector arriba derecha">&nbsp;</div>
+                <div class="sector" role="button" tabindex="0" data-index="2" aria-label="Sector abajo izquierda">&nbsp;</div>
+                <div class="sector" role="button" tabindex="0" data-index="3" aria-label="Sector abajo derecha">&nbsp;</div>
+            </div>
 
-        </button>
+            <div class="find-exit-controls">
+                <button id="fx-start">Iniciar</button>
+                <button id="fx-reset">Reiniciar</button>
+                <label class="fx-voice-toggle"><input type="checkbox" id="fx-voice" checked> Voz guía</label>
+                <div id="fx-hint" aria-hidden="true"></div>
+            </div>
+        </div>
 
     </section>
 
     <section id="blindnessReflection" class="screen">
-
+        <img src="assets/icons/eye.svg" class="screen-icon" alt="Ceguera">
         <h1>REFLEXIÓN</h1>
 
-        <p>
-            Dependencia alta de referencias externas.
-        </p>
+        <div class="reflection-stats">
+            <div class="stat">
+                <strong>Distancia recorrida</strong>
+                <span id="stat-distance">—</span>
+            </div>
+            <div class="stat">
+                <strong>Tiempo</strong>
+                <span id="stat-time">—</span>
+            </div>
+            <div class="stat">
+                <strong>Autonomía</strong>
+                <span id="stat-autonomy">—</span>
+            </div>
+            <div class="stat">
+                <strong>Dependencia externa</strong>
+                <span id="stat-dependence">—</span>
+            </div>
+        </div>
 
-        <button onclick="showScreen('final')">
-
-            IR A CONCLUSIÓN
-
-        </button>
+        <div class="reflection-actions">
+            <button id="btn-other" onclick="showScreen('selector')">VER OTRA EXPERIENCIA</button>
+        </div>
 
     </section>
 
@@ -305,8 +330,20 @@
     <script src="js/indicators.js"></script>
     <script src="js/ergodic.js"></script>
 
+    <script src="js/find-exit.js"></script>
     <script src="js/navigation.js"></script>
     <script src="js/wheelchair.js"></script>
+
+    <!-- Modal used by find-exit to announce completion -->
+    <div id="fx-modal" class="fx-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="fx-modal-title">
+        <div class="fx-modal-inner">
+            <h2 id="fx-modal-title">Lo lograste</h2>
+            <p id="fx-modal-body">Has encontrado la salida.</p>
+            <div class="fx-modal-actions">
+                <button id="fx-modal-continue">Continuar</button>
+            </div>
+        </div>
+    </div>
 
 </body>
 
