@@ -101,39 +101,6 @@
         }
     }
 
-    function trySpeakNow(text){
-        if(!('speechSynthesis' in window)) return false;
-        try{
-            const utter = new SpeechSynthesisUtterance(text);
-            const v = findGoogleSpanishUSVoice();
-            if(v){ utter.voice = v; if(v.lang) utter.lang = v.lang; } else { utter.lang = 'es-ES'; }
-            utter.rate = 1.0; utter.pitch = 1.0;
-            try{ window.speechSynthesis.cancel(); }catch(e){}
-            window.speechSynthesis.speak(utter);
-            return true;
-        }catch(e){ return false; }
-    }
-
-    function trySpeakWithRetries(text, attempts = 8, interval = 300){
-        if(!('speechSynthesis' in window)) return;
-        let tries = 0;
-        const id = setInterval(()=>{
-            tries++;
-            trySpeakNow(text);
-            if(window.speechSynthesis && window.speechSynthesis.speaking) {
-                clearInterval(id);
-            }
-            if(tries >= attempts) clearInterval(id);
-        }, interval);
-
-        const onVoices = ()=>{ trySpeakNow(text); window.removeEventListener('voiceschanged', onVoices); };
-        window.addEventListener('voiceschanged', onVoices);
-
-        const onUser = ()=>{ try{ window.speechSynthesis.cancel(); }catch(e){}; trySpeakNow(text); window.removeEventListener('pointerdown', onUser); window.removeEventListener('keydown', onUser); };
-        window.addEventListener('pointerdown', onUser, {once:true});
-        window.addEventListener('keydown', onUser, {once:true});
-    }
-
     function getWheelchairReflectionText(){
         return 'Para algunas personas, cruzar una calle toma minutos. Para otras, requiere buscar rutas alternativas, superar barreras físicas y realizar un esfuerzo constante. La ciudad debería ofrecer las mismas oportunidades de movilidad para todos.';
     }
@@ -161,18 +128,9 @@
     function onScreenShown(e){
         if(!e || !e.detail) return;
         const id = e.detail.id;
-        if(['blindnessReflection','crutchesReflection'].includes(id)){
+        if(id === 'wheelchairReflection'){
             renderComparisonFor(id);
             const section = document.getElementById(id);
-            wirePlayButton(section);
-            const text = 'Para algunas personas, cruzar una calle toma minutos. Para otras, requiere buscar rutas alternativas, superar barreras físicas y realizar un esfuerzo constante. La ciudad debería ofrecer las mismas oportunidades de movilidad para todos.';
-            // attempt generic auto-speak with retries
-            trySpeakNow(text);
-            trySpeakWithRetries(text, 8, 350);
-        } else if(id === 'wheelchairReflection'){
-            renderComparisonFor(id);
-            const section = document.getElementById(id);
-            // force the wheelchair reflection speech with Google Spanish voice when available
             speakWheelchairReflection();
             if(section && section.querySelector('.reflection-play')){
                 wirePlayButton(section);
@@ -185,14 +143,10 @@
     window.addEventListener('screenShown', onScreenShown);
     document.addEventListener('DOMContentLoaded', ()=>{
         const active = document.querySelector('.screen.active');
-        if(active && ['blindnessReflection','wheelchairReflection','crutchesReflection'].includes(active.id)){
+        if(active && active.id === 'wheelchairReflection'){
             renderComparisonFor(active.id);
             wirePlayButton(document.getElementById(active.id));
-            if(active.id === 'wheelchairReflection'){
-                setTimeout(()=>{ speakWheelchairReflection(); }, 400);
-            } else {
-                setTimeout(()=>{ const text = 'Para algunas personas, cruzar una calle toma minutos. Para otras, requiere buscar rutas alternativas, superar barreras físicas y realizar un esfuerzo constante. La ciudad debería ofrecer las mismas oportunidades de movilidad para todos.'; speakForced(text); }, 400);
-            }
+            setTimeout(()=>{ speakWheelchairReflection(); }, 400);
         }
     });
 })();

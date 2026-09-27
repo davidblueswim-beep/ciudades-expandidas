@@ -142,15 +142,6 @@ function ensureGlobalNav(){
 
 document.addEventListener('DOMContentLoaded', ()=>{
 	ensureGlobalNav();
-	document.addEventListener('click', (event)=>{
-		const btn = event.target.closest('button');
-		if(!btn) return;
-		const text = (btn.textContent || '').trim().toUpperCase();
-		if(text === 'VER OTRA EXPERIENCIA'){
-			event.preventDefault();
-			showSelectorTransition();
-		}
-	});
 });
 
 // expose functions

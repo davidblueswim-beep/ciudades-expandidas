@@ -115,9 +115,4 @@ document.addEventListener('screenShown', (event)=>{
 	if(event && event.detail && event.detail.id === 'wheelchair03'){
 		resetSlopeSequence();
 	}
-	if(event && event.detail && event.detail.id === 'wheelchairReflection'){
-		setTimeout(()=>{
-			playWheelchairVideoOverlay('assets/video3.mp4', 'selector');
-		}, 250);
-	}
 });
