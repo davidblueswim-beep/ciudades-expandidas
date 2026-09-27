@@ -6,7 +6,7 @@
         'Descansa e inténtalo una vez más.',
         'Último escalón.'
     ];
-    const STATE = { step: 0, dragging: false, pointerId: null };
+    const STATE = { step: 0, dragging: false, pointerId: null, videoTimer: null };
     const BALANCE = { progress: 0, dragging: false, pointerId: null, completed: false, errorTimer: null };
 
     function elements(){
@@ -215,8 +215,17 @@
         return voice || voices[0] || null;
     }
 
-    function speak(text){
-        if(!('speechSynthesis' in window)) return;
+    function speak(text, onComplete){
+        if(!('speechSynthesis' in window)){
+            if(onComplete) onComplete();
+            return;
+        }
+        let completed = false;
+        const finishSpeech = ()=>{
+            if(completed) return;
+            completed = true;
+            if(onComplete) onComplete();
+        };
         try{
             const utterance = new SpeechSynthesisUtterance(text);
             const voice = spanishVoice();
@@ -227,9 +236,15 @@
                 utterance.lang = 'es-US';
             }
             utterance.rate = 0.95;
+            if(onComplete){
+                utterance.onend = finishSpeech;
+                utterance.onerror = finishSpeech;
+            }
             window.speechSynthesis.cancel();
             window.speechSynthesis.speak(utterance);
-        }catch(error){ /* Speech is optional when the browser does not support it. */ }
+        }catch(error){
+            if(onComplete) finishSpeech();
+        }
     }
 
     function openClimbVideo(){
@@ -279,12 +294,17 @@
         STATE.step += 1;
         if(steps[STATE.step]) steps[STATE.step].classList.add('is-current');
         placeClimber(STATE.step);
-        speak(PHRASES[STATE.step - 1]);
         if(STATE.step === PHRASES.length){
             status.textContent = '¡Llegaste al último escalón!';
             climber.setAttribute('aria-label', 'Llegaste al último escalón');
-            openClimbVideo();
+            speak(PHRASES[STATE.step - 1], ()=>{
+                STATE.videoTimer = setTimeout(()=>{
+                    STATE.videoTimer = null;
+                    if(document.getElementById('crutches03').classList.contains('active')) openClimbVideo();
+                }, 1200);
+            });
         } else {
+            speak(PHRASES[STATE.step - 1]);
             status.textContent = `Escalón ${STATE.step + 1} de ${PHRASES.length}`;
             climber.setAttribute('aria-label', `Persona con muletas en el escalón ${STATE.step + 1} de ${PHRASES.length}`);
         }
@@ -292,6 +312,10 @@
 
     function reset(){
         const {steps, status, climber, videoModal, video, videoStatus, videoContinue} = elements();
+        if(STATE.videoTimer){
+            clearTimeout(STATE.videoTimer);
+            STATE.videoTimer = null;
+        }
         STATE.step = 0;
         STATE.dragging = false;
         STATE.pointerId = null;
@@ -383,7 +407,12 @@
                 if(!STATE.dragging) placeClimber(STATE.step);
             });
             window.addEventListener('screenShown', event=>{
-                if(event.detail && event.detail.id === 'crutches03') reset();
+                if(!event.detail) return;
+                if(event.detail.id === 'crutches03') reset();
+                else if(STATE.videoTimer){
+                    clearTimeout(STATE.videoTimer);
+                    STATE.videoTimer = null;
+                }
             });
         }
     }
