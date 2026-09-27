@@ -528,3 +528,162 @@ button {
 /* Simplify voice select wrapper spacing */
 .voice-select-wrap{ display:flex; gap:10px; align-items:center; justify-content:center; margin-bottom:8px; }
 
+@media (max-width: 768px) {
+    body {
+        overflow: auto;
+    }
+
+    .screen {
+        padding: 20px 16px;
+        min-height: 100vh;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+        line-height: 1.1;
+        margin-bottom: 12px;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+        margin-bottom: 18px;
+    }
+
+    h3 {
+        font-size: 1.4rem;
+        margin-bottom: 14px;
+    }
+
+    button {
+        display: block;
+        width: min(100%, 320px);
+        margin: 8px auto;
+        padding: 14px 18px;
+        font-size: 0.9rem;
+    }
+
+    .cards {
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+    }
+
+    .card,
+    .card1,
+    .card2 {
+        width: min(78vw, 280px);
+        height: 180px;
+    }
+
+    .screen-icon,
+    .ceguera .screen-icon,
+    .silla .screen-icon {
+        width: 36px !important;
+        height: 36px !important;
+        top: 12px !important;
+        right: 12px !important;
+    }
+
+    .global-nav {
+        left: 12px;
+        bottom: 12px;
+        gap: 6px;
+    }
+
+    .nav-button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .cross-intro-inline {
+        margin-top: 10vh;
+        width: 94%;
+    }
+
+    .cross-intro-inline .cross-intro-inner p {
+        font-size: 0.95rem;
+    }
+
+    .sectors-grid {
+        width: 96vw;
+        height: 46vh;
+        gap: 12px;
+    }
+
+    .find-exit-controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .find-exit-controls button,
+    .find-exit-controls label {
+        width: min(100%, 260px);
+    }
+
+    .reflection-stats {
+        gap: 10px;
+    }
+
+    .reflection-stats .stat {
+        min-width: 140px;
+        padding: 10px 12px;
+    }
+
+    .reflection-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .reflection-actions button,
+    .reflection-actions .reflection-play {
+        width: min(100%, 280px);
+        margin: 8px 0;
+    }
+
+    .time-comparison.wheelchair {
+        padding: 16px 12px;
+    }
+
+    .time-comparison.wheelchair .wc-row {
+        gap: 8px;
+        padding: 8px 0;
+    }
+
+    .time-comparison.wheelchair .wc-icon {
+        width: 32px;
+        font-size: 1.4rem;
+    }
+
+    .time-comparison.wheelchair .wc-value {
+        width: 52px;
+        font-size: 0.8rem;
+    }
+
+    .slope-wrap {
+        margin-top: 8px;
+    }
+
+    .slope-track {
+        height: 300px;
+    }
+
+    #progress {
+        width: min(90vw, 320px);
+    }
+
+    #wheelchair-wait-message {
+        right: 12px;
+        bottom: 12px;
+        font-size: 1rem;
+        padding: 10px 14px;
+        letter-spacing: 0.06em;
+    }
+
+    .wheelchair-video-overlay {
+        object-position: center;
+    }
+}
+
