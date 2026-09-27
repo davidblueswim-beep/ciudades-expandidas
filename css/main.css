@@ -27,6 +27,7 @@ body {
     flex-direction: column;
     padding: 40px;
     text-align: center;
+    position: relative;
 }
 
 .screen.active {
@@ -46,6 +47,18 @@ body {
     object-fit: cover;
     z-index: -1;
 
+}
+
+/* screen icons */
+.screen-icon{
+    position:absolute;
+    top:16px;
+    right:16px;
+    width:48px;
+    height:48px;
+    z-index:10;
+    opacity:0.95;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.5));
 }
 
 .overlay {

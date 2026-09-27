@@ -22,16 +22,14 @@ window.initSpatialAudio = async function(){
         console.warn('No Web Audio API disponible:', e);
     }
 
-    // Fallback: carga ambiente con Howler si existe
+    // Fallback: prepare a Howler instance for ambience but do NOT autoplay or loop by default
     if(typeof Howl !== 'undefined'){
         audioManager.ambience = new Howl({
             src: ['assets/audio/city_ambience.mp3'],
-            loop: true,
+            loop: false,
             volume: 0.6,
             html5: true
         });
-        // Intentar reproducir (puede bloquearse por autoplay)
-        try{ audioManager.ambience.play(); }catch(e){}
     }
 
     // Helper: decode audio buffer from URL
@@ -92,6 +90,22 @@ window.initSpatialAudio = async function(){
 
         audioManager.sources[id] = { source: src, panner, gain, buffer };
         return audioManager.sources[id];
+    };
+
+    // Play a one-shot audio (uses positional createPositional when available, otherwise Howler)
+    audioManager.playOneShot = async function(url, opts={}){
+        opts = Object.assign({position:[0,0,0], volume:1}, opts);
+        if(audioManager.ctx && typeof audioManager.createPositional === 'function'){
+            try{
+                return await audioManager.createPositional('oneshot_'+Date.now(), url, {position: opts.position, loop:false, volume: opts.volume});
+            }catch(e){ /* fallback below */ }
+        }
+        if(typeof Howl !== 'undefined'){
+            const h = new Howl({ src: [url], loop:false, volume: opts.volume, html5:true });
+            try{ h.play(); }catch(e){}
+            return h;
+        }
+        return null;
     };
 
     audioManager.setSourcePosition = function(id, x,y,z){

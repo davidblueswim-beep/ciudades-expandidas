@@ -46,6 +46,9 @@ function showScreen(id){
 			clearTimeout(window._crossIntroTimer);
 			window._crossIntroTimer = null;
 		}
+
+		// stop any city/semafor audio sequence when leaving
+		try{ if(typeof window.stopCitySequence === 'function') window.stopCitySequence(); }catch(e){}
 		const existing = document.querySelector('.cross-intro');
 		if(existing) existing.remove();
 		// ensure buttons are visible when not on that screen
@@ -156,8 +159,13 @@ function showDelayedCrossOptions(){
 			// reveal buttons
 			if(btnC) btnC.style.display = '';
 			if(btnE) btnE.style.display = '';
-			// attach action: CRUZAR continues to next screen
-			if(btnC) btnC.onclick = function(e){ e.preventDefault(); showScreen('blindness03'); };
+			// attach action: CRUZAR continues to next screen and stops audio
+			if(btnC) btnC.onclick = function(e){ e.preventDefault(); window.stopCitySequence(); showScreen('blindness03'); };
+			// ESPERAR restarts the sequence
+			if(btnE) btnE.onclick = function(e){ e.preventDefault(); window.startCitySequence(); };
+
+			// start the city->semafor sequence automatically when buttons appear
+			try{ window.startCitySequence(); }catch(e){ console.warn('startCitySequence failed', e); }
 			// fade and remove intro after short time
 			intro.classList.add('hide');
 			setTimeout(()=> intro.remove(), 400);
@@ -166,3 +174,37 @@ function showDelayedCrossOptions(){
 }
 
 window.showDelayedCrossOptions = showDelayedCrossOptions;
+
+// Manage city -> semafor sequence so it can be stopped/restarted
+window.stopCitySequence = function(){
+	try{
+		if(window._citySeqTimeout){ clearTimeout(window._citySeqTimeout); window._citySeqTimeout = null; }
+		if(window._citySeqSource){
+			const s = window._citySeqSource;
+			try{ if(s.source && typeof s.source.stop === 'function') s.source.stop(); }catch(e){}
+			try{ if(typeof s.stop === 'function') s.stop(); }catch(e){}
+		}
+	}catch(e){ console.warn('stopCitySequence error', e); }
+	window._citySeqSource = null;
+};
+
+window.startCitySequence = async function(){
+	// restart sequence: stop existing then start 10s city ambience then semafor
+	try{
+		window.stopCitySequence();
+		const am = (typeof initSpatialAudio === 'function') ? await initSpatialAudio() : window.audioManager;
+		const CITY = 'assets/audio/city_ambience.mp3';
+
+		if(am && typeof am.playOneShot === 'function'){
+			// play city ambience once
+			const s = await am.playOneShot(CITY, {position:[0,0,0], volume:0.9});
+			window._citySeqSource = s;
+		}else{
+			// fallback using Howler directly
+			if(typeof Howl !== 'undefined'){
+				const h = new Howl({ src:[CITY], loop:false, volume:0.9 });
+				try{ h.play(); window._citySeqSource = h; }catch(e){}
+			}
+		}
+	}catch(e){ console.warn('startCitySequence error', e); }
+};
